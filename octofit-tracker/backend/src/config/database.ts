@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 const connectionString = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_db';
 const db = mongoose.connection;
 
+mongoose.set('strictQuery', true);
+
 mongoose
   .connect(connectionString)
   .then(() => {
@@ -13,6 +15,8 @@ mongoose
     process.exit(1);
   });
 
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', (error) => {
+  console.error('connection error:', error);
+});
 
 export default db;
